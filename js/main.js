@@ -60,7 +60,8 @@ const SCENES = [
       'images/xiaoyaxuan/03-floral-corner.jpg',
       'images/xiaoyaxuan/04-day-night.jpg',
       'images/xiaoyaxuan/05-details.jpg',
-      'images/xiaoyaxuan/06-model.jpg'
+      'images/xiaoyaxuan/06-model.jpg',
+      'images/xiaoyaxuan/07-props.jpg'
     ],
     desc: [
       '第一章：我重生了。',
