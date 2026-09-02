@@ -199,17 +199,17 @@ const SCENES = [
     id: 'bgfabric',
     en: 'BACKGROUND FABRIC',
     zh: '背景布區',
-    cover: 'images/bgfabric/img-1148_orig.jpg',
+    cover: 'images/bgfabric/01-wine-red.jpg',
     images: [
-      'images/bgfabric/img-1148_orig.jpg',
-      'images/bgfabric/img-1163_orig.jpg',
-      'images/bgfabric/img-1134_orig.jpg',
-      'images/bgfabric/img-1161_orig.jpg',
-      'images/bgfabric/img-1169_orig.jpg',
-      'images/bgfabric/img-1173_orig.jpg'
+      'images/bgfabric/01-wine-red.jpg',
+      'images/bgfabric/02-white.jpg',
+      'images/bgfabric/03-green.jpg',
+      'images/bgfabric/04-pink.jpg',
+      'images/bgfabric/05-latte.jpg',
+      'images/bgfabric/06-grey.jpg'
     ],
     desc: [
-      '提供白、粉、綠、酒紅、鐵灰共 5 色背景紙，適合簡約人像、網拍等拍攝需求。',
+      '提供白、粉、綠、酒紅、鐵灰、奶茶共 6 色背景紙，適合簡約人像、網拍等拍攝需求。',
       '額外費用：若使用共棚制入場，每次使用 $100／次，在租棚時間內不限使用次數。'
     ],
     notes: [
