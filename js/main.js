@@ -370,7 +370,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
     const showDayType = plan === 'group' || plan === 'pet';
     dayTypeField.style.display = showDayType ? 'flex' : 'none';
     commercialField.style.display = plan === 'group' ? 'flex' : 'none';
-    peopleLabel.textContent = plan === 'pet' ? '總人數（含毛小孩）' : '拍攝人數';
+    peopleLabel.textContent = plan === 'pet' ? '總人數（含毛小孩）' : '進場人數';
 
     let hourlyRate = 0;
     let warning = '';
