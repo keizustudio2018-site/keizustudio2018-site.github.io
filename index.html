@@ -197,6 +197,51 @@
       </div>
     </div>
 
+    <div class="fee-calc" id="feeCalc">
+      <h3>費用快速試算</h3>
+      <p class="fee-calc-note">選擇方案並輸入人數、時數，立即試算大約金額（僅供參考，正式報價仍需私訊確認）。</p>
+
+      <div class="fee-calc-grid">
+        <div class="fee-calc-form">
+          <label class="fee-field">
+            <span>方案類型</span>
+            <select id="calcPlan">
+              <option value="single">單人進場（1～2人）</option>
+              <option value="group" selected>共棚制團體票（3人以上）</option>
+              <option value="pet">寵物拍攝（人數＋毛小孩）</option>
+              <option value="venue">全場包棚（整棟包場）</option>
+            </select>
+          </label>
+
+          <label class="fee-field">
+            <span id="calcPeopleLabel">拍攝人數</span>
+            <input type="number" id="calcPeople" min="1" value="4" inputmode="numeric">
+          </label>
+
+          <label class="fee-field">
+            <span>拍攝時數（HR）</span>
+            <input type="number" id="calcHours" min="1" step="0.5" value="3" inputmode="decimal">
+          </label>
+
+          <div class="fee-field fee-field-radio" id="calcDayTypeField">
+            <span>拍攝日</span>
+            <span class="fee-radio-group">
+              <label><input type="radio" name="calcDayType" value="weekday" checked> 平日</label>
+              <label><input type="radio" name="calcDayType" value="holiday"> 假日</label>
+            </span>
+          </div>
+
+          <div class="fee-field fee-field-checkbox" id="calcCommercialField">
+            <label><input type="checkbox" id="calcCommercial"> 此次拍攝為商業攝影</label>
+          </div>
+        </div>
+
+        <div class="fee-calc-result" id="calcResult"></div>
+      </div>
+
+      <p class="fee-calc-disclaimer">＊以上僅為粗略試算，未列入背景布、梳妝加購、道具租借等費用；實際報價與時段是否可預約，仍以 FB／IG 私訊回覆為準。</p>
+    </div>
+
     <div class="equip-box">
       <h3>提供設備</h3>
       <div class="equip-grid">

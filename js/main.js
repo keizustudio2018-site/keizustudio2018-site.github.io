@@ -342,3 +342,95 @@ document.addEventListener('keydown', e => {
 
 // ===== Footer year =====
 document.getElementById('year').textContent = new Date().getFullYear();
+
+// ===== Fee calculator =====
+(function () {
+  const planSelect = document.getElementById('calcPlan');
+  if (!planSelect) return;
+
+  const peopleInput = document.getElementById('calcPeople');
+  const peopleLabel = document.getElementById('calcPeopleLabel');
+  const hoursInput = document.getElementById('calcHours');
+  const dayTypeField = document.getElementById('calcDayTypeField');
+  const commercialField = document.getElementById('calcCommercialField');
+  const commercialInput = document.getElementById('calcCommercial');
+  const resultBox = document.getElementById('calcResult');
+
+  function fmt(n) {
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+
+  function update() {
+    const plan = planSelect.value;
+    const people = Math.max(0, parseInt(peopleInput.value, 10) || 0);
+    const hours = Math.max(0, parseFloat(hoursInput.value) || 0);
+    const isHoliday = document.querySelector('input[name="calcDayType"]:checked')?.value === 'holiday';
+    const isCommercial = commercialInput.checked;
+
+    const showDayType = plan === 'group' || plan === 'pet';
+    dayTypeField.style.display = showDayType ? 'flex' : 'none';
+    commercialField.style.display = plan === 'group' ? 'flex' : 'none';
+    peopleLabel.textContent = plan === 'pet' ? '總人數（含毛小孩）' : '拍攝人數';
+
+    let hourlyRate = 0;
+    let warning = '';
+    let extraNote = '';
+    let showDiscount = false;
+
+    if (plan === 'single') {
+      if (people > 2) warning = '單人進場方案僅適用 1～2 人，超過人數建議改選「共棚制團體票」，此結果僅供參考。';
+      hourlyRate = 400 * Math.max(people, 1);
+    } else if (plan === 'group') {
+      if (people > 0 && people < 3) warning = '共棚制團體票適用 3 人以上，未滿 3 人可考慮改選「單人進場」較划算。';
+      const extra = Math.max(0, people - 6);
+      hourlyRate = 900 + extra * 250;
+      showDiscount = hours >= 3 && !isCommercial;
+      if (isCommercial) extraNote = '※商業攝影恕無 3HR 優惠折扣';
+    } else if (plan === 'pet') {
+      if (people > 0 && people < 2) warning = '寵物拍攝（人數＋毛小孩）需 2 位以上，未滿 2 位可考慮改選「單人進場」。';
+      const p = Math.max(people, 2);
+      if (p <= 2) {
+        hourlyRate = 800;
+      } else if (p <= 6) {
+        hourlyRate = 900;
+      } else {
+        hourlyRate = 900 + (p - 6) * 250;
+        extraNote = '超過 6 位以上金額為推算參考，正式報價請私訊確認';
+      }
+      showDiscount = hours >= 3;
+    } else if (plan === 'venue') {
+      if (people > 25) warning = '全場包棚上限 25 人，超過人數請直接私訊洽談。';
+      const extra = Math.max(0, people - 15);
+      hourlyRate = 2500 + extra * 250;
+      if (hours > 8) extraNote = '拍攝時數超過 8 小時需另外洽談報價，此金額僅供 8 小時內參考';
+    }
+
+    const rawTotal = hourlyRate * hours;
+    const discountRate = isHoliday ? 0.89 : 0.85;
+    const discountedTotal = showDiscount ? rawTotal * discountRate : null;
+
+    let html = '';
+    html += `<p class="fee-calc-rate">每小時費率</p>`;
+    html += `<p class="fee-calc-total">${fmt(hourlyRate)}<span>／HR</span></p>`;
+    html += `<p class="fee-calc-rate" style="margin-top:14px;">預估總價（${hours || 0} HR）</p>`;
+    html += `<p class="fee-calc-total">${fmt(rawTotal)}</p>`;
+
+    if (showDiscount) {
+      html += `<div class="fee-calc-discount">
+        <p class="fee-calc-discount-label">若符合『事前全額付款＋3HR 以上』優惠（${isHoliday ? '假日 89 折' : '平日 85 折'}）</p>
+        <p class="fee-calc-discount-total">${fmt(discountedTotal)}</p>
+      </div>`;
+    }
+
+    if (extraNote) html += `<p class="fee-calc-warning">${extraNote}</p>`;
+    if (warning) html += `<p class="fee-calc-warning">${warning}</p>`;
+
+    resultBox.innerHTML = html;
+  }
+
+  [planSelect, peopleInput, hoursInput, commercialInput].forEach(el => el.addEventListener('input', update));
+  planSelect.addEventListener('change', update);
+  document.querySelectorAll('input[name="calcDayType"]').forEach(el => el.addEventListener('change', update));
+
+  update();
+})();

@@ -419,6 +419,49 @@ li { margin-bottom: 0.4em; }
 .price-note { color: var(--gold); font-size: 0.85rem; margin: 0 0 16px; }
 .price-list { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; }
 
+/* ===== Fee calculator ===== */
+.fee-calc {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 34px 32px;
+  margin: 8px 0 48px;
+}
+.fee-calc h3 { font-family: var(--serif); color: var(--gold-soft); font-size: 1.2rem; margin: 0 0 8px; }
+.fee-calc-note { color: var(--muted); font-size: 0.88rem; margin: 0 0 26px; }
+.fee-calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+.fee-calc-form { display: flex; flex-direction: column; gap: 18px; }
+.fee-field { display: flex; flex-direction: column; gap: 6px; font-size: 0.88rem; color: var(--cream); }
+.fee-field > span:first-child { color: var(--muted); letter-spacing: 0.03em; }
+.fee-field select, .fee-field input[type="number"] {
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  color: var(--cream);
+  padding: 10px 12px;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  border-radius: 2px;
+}
+.fee-field select:focus, .fee-field input:focus { outline: none; border-color: var(--gold); }
+.fee-field-radio { flex-direction: row; align-items: center; justify-content: space-between; }
+.fee-radio-group { display: flex; gap: 18px; color: var(--cream); font-size: 0.9rem; }
+.fee-radio-group label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-weight: normal; }
+.fee-field-checkbox label { display: flex; align-items: center; gap: 10px; color: var(--cream); font-size: 0.9rem; cursor: pointer; }
+
+.fee-calc-result {
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  padding: 26px 24px;
+  min-height: 100%;
+}
+.fee-calc-rate { color: var(--muted); font-size: 0.85rem; margin: 0 0 6px; }
+.fee-calc-total { font-family: var(--disp); font-size: 2rem; color: var(--cream); margin: 0 0 4px; }
+.fee-calc-total span { font-size: 0.9rem; color: var(--muted); }
+.fee-calc-discount { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.fee-calc-discount-label { color: var(--gold); font-size: 0.82rem; margin: 0 0 4px; }
+.fee-calc-discount-total { font-family: var(--disp); font-size: 1.5rem; color: var(--gold-soft); margin: 0; }
+.fee-calc-warning { color: var(--wine-soft); font-size: 0.82rem; margin-top: 14px; }
+.fee-calc-disclaimer { color: var(--muted-2); font-size: 0.78rem; margin-top: 22px; }
+
 .equip-box { border-top: 1px solid var(--line); padding-top: 36px; }
 .equip-box h3 { font-family: var(--serif); color: var(--gold-soft); margin-bottom: 20px; }
 .equip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -528,6 +571,7 @@ li { margin-bottom: 0.4em; }
   .footer-grid { grid-template-columns: 1fr; }
   .modal-box { grid-template-columns: 1fr; }
   .modal-gallery { grid-template-columns: repeat(3, 1fr); }
+  .fee-calc-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
