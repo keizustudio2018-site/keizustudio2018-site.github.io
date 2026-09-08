@@ -409,6 +409,18 @@ document.getElementById('year').textContent = new Date().getFullYear();
     const discountRate = isHoliday ? 0.89 : 0.85;
     const discountedTotal = showDiscount ? rawTotal * discountRate : null;
 
+    let venueTip = '';
+    if (plan === 'group' && people > 6 && hours > 0) {
+      const venueExtra = Math.max(0, people - 15);
+      const venueHourly = 2500 + venueExtra * 250;
+      const venueTotal = venueHourly * hours;
+      const effectiveGroupTotal = showDiscount ? discountedTotal : rawTotal;
+      if (venueTotal < effectiveGroupTotal) {
+        const savings = effectiveGroupTotal - venueTotal;
+        venueTip = `以目前人數與時數計算，改選「全場包棚」約 ${fmt(venueTotal)}，比共棚制團體票便宜 ${fmt(savings)}，可考慮改選全場包棚。`;
+      }
+    }
+
     let html = '';
     html += `<p class="fee-calc-rate">每小時費率</p>`;
     html += `<p class="fee-calc-total">${fmt(hourlyRate)}<span>／HR</span></p>`;
@@ -422,6 +434,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
       </div>`;
     }
 
+    if (venueTip) html += `<p class="fee-calc-tip">💡 ${venueTip}</p>`;
     if (extraNote) html += `<p class="fee-calc-warning">${extraNote}</p>`;
     if (warning) html += `<p class="fee-calc-warning">${warning}</p>`;
 
