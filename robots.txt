@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://keizustudio2018-site.github.io/sitemap.xml
