@@ -470,10 +470,27 @@ li { margin-bottom: 0.4em; }
 .fee-calc-disclaimer { color: var(--muted-2); font-size: 0.78rem; margin-top: 22px; }
 
 .equip-box { border-top: 1px solid var(--line); padding-top: 36px; }
-.equip-box h3 { font-family: var(--serif); color: var(--gold-soft); margin-bottom: 20px; }
+.equip-box h3 { font-family: var(--serif); color: var(--gold-soft); margin-bottom: 8px; }
+.equip-note { color: var(--muted-2); font-size: 0.8rem; margin: 0 0 20px; }
 .equip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
 .equip-grid h4 { color: var(--cream); font-weight: 500; margin-bottom: 10px; }
 .equip-grid ul { color: var(--muted); font-size: 0.92rem; }
+.equip-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 300;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+}
+.equip-link:hover { color: var(--gold-soft); text-decoration-color: var(--gold-soft); }
 
 /* ===== Booking steps ===== */
 .booking-steps {

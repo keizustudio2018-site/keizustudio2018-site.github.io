@@ -1,3 +1,15 @@
+// ===== Equipment data =====
+const EQUIPMENT = [
+  { id: 'godox-308', category: 'free', name: 'GODOX LED-308II 可控色溫攝影燈', image: 'images/equipment/godox-led308ii.jpg' },
+  { id: 'yn360', category: 'free', name: '永諾 LED-YN360 補光棒 可控色溫攝影燈', image: 'images/equipment/yongnuo-yn360.jpg' },
+  { id: 'yida-18', category: 'free', name: '18吋 LED Yida 環形補光燈', image: 'images/equipment/yida-18inch-ring-light.jpg' },
+  { id: '5500k', category: 'free', name: '5500K 持續燈', image: null },
+  { id: 'smoke', category: 'paid', name: 'S1 煙霧機', price: '$150／一次', image: 'images/equipment/fog-machine-s1.jpg' },
+  { id: 'bgfabric', category: 'paid', name: '背景布', price: '$100／一次（進棚仍需付共棚費用）', image: null },
+  { id: 'sk400ii', category: 'paid', name: '神牛 SK400II', price: '$350／一次', image: 'images/equipment/godox-sk400ii.jpg' },
+  { id: 'vanity-table', category: 'paid', name: '梳妝台加購', price: '$250／HR／一桌2人座', image: null }
+];
+
 // ===== Scene data =====
 const SCENES = [
   {
@@ -233,6 +245,29 @@ SCENES.forEach(scene => {
   card.addEventListener('click', () => openModal(scene));
   grid.appendChild(card);
 });
+
+// ===== Render equipment lists =====
+function renderEquipList(containerId, category) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const items = EQUIPMENT.filter(e => e.category === category);
+  container.innerHTML = items.map(item => {
+    const label = item.price ? `${item.name}　${item.price}` : item.name;
+    if (item.image) {
+      return `<li><button type="button" class="equip-link" data-id="${item.id}">${label}</button></li>`;
+    }
+    return `<li>${label}</li>`;
+  }).join('');
+
+  container.querySelectorAll('.equip-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = EQUIPMENT.find(e => e.id === btn.dataset.id);
+      if (item && item.image) openLightbox([item.image], 0);
+    });
+  });
+}
+renderEquipList('equipFreeList', 'free');
+renderEquipList('equipPaidList', 'paid');
 
 // ===== Modal =====
 const modal = document.getElementById('sceneModal');
