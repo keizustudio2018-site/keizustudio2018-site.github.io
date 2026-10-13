@@ -145,17 +145,47 @@ const SCENES = [
     id: 'mourning',
     en: 'REQUIEM',
     zh: '悼夜之詩',
-    cover: 'images/mourning/20_orig.jpg',
-    images: [
-      'images/mourning/20_orig.jpg',
-      'images/mourning/21_orig.jpg',
-      'images/mourning/24_orig.png',
-      'images/mourning/22-2_orig.jpg',
-      'images/mourning/23-2_orig.jpg',
-      'images/mourning/25_orig.jpg'
-    ],
-    desc: [
-      '夜色無聲落下，黑百合花兒交錯低喃，未署名的詩詞化作微弱迴響，緩緩沉入悼夜。那些被輕喚的字句，在沉寂裡悄然安放。'
+    activeVariant: 'halloween',
+    variants: [
+      {
+        id: 'halloween',
+        label: '🎃 萬聖限定',
+        note: '展示至 12/13，12/14（一）起恢復常駐景',
+        cover: 'images/mourning/halloween/01-cover.jpg',
+        images: [
+          'images/mourning/halloween/01-cover.jpg',
+          'images/mourning/halloween/02-full.jpg',
+          'images/mourning/halloween/03-diptych.jpg',
+          'images/mourning/halloween/04-birdcage.jpg',
+          'images/mourning/halloween/05-collage.jpg',
+          'images/mourning/halloween/06-scene.jpg',
+          'images/mourning/halloween/07-model-blue.jpg',
+          'images/mourning/halloween/08-model-duo.jpg',
+          'images/mourning/halloween/09-model-poses.jpg',
+          'images/mourning/halloween/10-model-grid.jpg'
+        ],
+        desc: [
+          '萬聖限定「骸骨之詩」：十字架、鎖鏈、燭台與成群骷髏，在悼夜之詩裡悄悄甦醒，換上限定的哥德墓園氛圍。',
+          '活動期間 9～11 月，12/14（一）起恢復悼夜之詩常駐景；這組萬聖限定照片會留在這裡，讓大家隨時回顧曾經的樣子。'
+        ]
+      },
+      {
+        id: 'classic',
+        label: '經典常駐版',
+        note: null,
+        cover: 'images/mourning/20_orig.jpg',
+        images: [
+          'images/mourning/20_orig.jpg',
+          'images/mourning/21_orig.jpg',
+          'images/mourning/24_orig.png',
+          'images/mourning/22-2_orig.jpg',
+          'images/mourning/23-2_orig.jpg',
+          'images/mourning/25_orig.jpg'
+        ],
+        desc: [
+          '夜色無聲落下，黑百合花兒交錯低喃，未署名的詩詞化作微弱迴響，緩緩沉入悼夜。那些被輕喚的字句，在沉寂裡悄然安放。'
+        ]
+      }
     ],
     notes: [
       '此棚景備有兩盞專屬聚光燈，請拍攝後立即關閉，避免燈殼過熱融損',
@@ -230,13 +260,23 @@ const SCENES = [
   }
 ];
 
+// ===== Scene variants helper (某些棚景有期間限定版本，平常顯示的版本可切換) =====
+function getActiveVariant(scene) {
+  if (!scene.variants) return null;
+  return scene.variants.find(v => v.id === scene.activeVariant) || scene.variants[0];
+}
+function sceneCover(scene) {
+  const v = getActiveVariant(scene);
+  return v ? v.cover : scene.cover;
+}
+
 // ===== Render scene grid =====
 const grid = document.getElementById('sceneGrid');
 SCENES.forEach(scene => {
   const card = document.createElement('div');
   card.className = 'scene-card';
   card.innerHTML = `
-    <img src="${scene.cover}" alt="${scene.zh}" loading="lazy">
+    <img src="${sceneCover(scene)}" alt="${scene.zh}" loading="lazy">
     <div class="scene-card-label">
       <span class="scene-card-en">${scene.en}</span>
       <span class="scene-card-zh">${scene.zh}</span>
@@ -274,20 +314,51 @@ const modal = document.getElementById('sceneModal');
 const modalGallery = document.getElementById('modalGallery');
 const modalEyebrow = document.getElementById('modalEyebrow');
 const modalTitle = document.getElementById('modalTitle');
+const modalVariantToggle = document.getElementById('modalVariantToggle');
 const modalDesc = document.getElementById('modalDesc');
 const modalNotes = document.getElementById('modalNotes');
 
+let modalVariantId = null;
+
 function openModal(scene) {
-  modalEyebrow.textContent = scene.en;
-  modalTitle.textContent = scene.zh;
-  modalGallery.innerHTML = scene.images.map((src, i) => `<img src="${src}" alt="${scene.zh}" loading="lazy" data-index="${i}">`).join('');
-  modalDesc.innerHTML = scene.desc.map(p => `<p>${p}</p>`).join('');
-  modalNotes.innerHTML = scene.notes.map(n => `<li>${n}</li>`).join('');
+  modalVariantId = scene.variants ? scene.activeVariant : null;
+  renderModal(scene);
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function renderModal(scene) {
+  const variant = scene.variants ? scene.variants.find(v => v.id === modalVariantId) : null;
+  const images = variant ? variant.images : scene.images;
+  const desc = variant ? variant.desc : scene.desc;
+
+  modalEyebrow.textContent = scene.en;
+  modalTitle.textContent = scene.zh;
+
+  if (scene.variants) {
+    modalVariantToggle.style.display = '';
+    modalVariantToggle.innerHTML = scene.variants.map(v => `
+      <button type="button" class="variant-btn${v.id === modalVariantId ? ' active' : ''}" data-variant="${v.id}">
+        ${v.label}${v.id === scene.activeVariant ? '' : '（已結束）'}
+      </button>
+    `).join('') + (variant && variant.note ? `<span class="variant-note">${variant.note}</span>` : '');
+    modalVariantToggle.querySelectorAll('.variant-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        modalVariantId = btn.dataset.variant;
+        renderModal(scene);
+      });
+    });
+  } else {
+    modalVariantToggle.style.display = 'none';
+    modalVariantToggle.innerHTML = '';
+  }
+
+  modalGallery.innerHTML = images.map((src, i) => `<img src="${src}" alt="${scene.zh}" loading="lazy" data-index="${i}">`).join('');
+  modalDesc.innerHTML = desc.map(p => `<p>${p}</p>`).join('');
+  modalNotes.innerHTML = scene.notes.map(n => `<li>${n}</li>`).join('');
 
   modalGallery.querySelectorAll('img').forEach(img => {
-    img.addEventListener('click', () => openLightbox(scene.images, Number(img.dataset.index)));
+    img.addEventListener('click', () => openLightbox(images, Number(img.dataset.index)));
   });
 }
 function closeModal() {

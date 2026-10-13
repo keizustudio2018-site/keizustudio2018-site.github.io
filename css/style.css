@@ -421,7 +421,22 @@ li { margin-bottom: 0.4em; }
   text-transform: uppercase;
   margin-bottom: 8px;
 }
-.modal-body h3 { font-family: var(--serif); font-size: 1.6rem; margin: 0 0 18px; }
+.modal-body h3 { font-family: var(--serif); font-size: 1.6rem; margin: 0 0 14px; }
+.modal-variant-toggle { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 18px; }
+.variant-btn {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.variant-btn:hover { border-color: var(--gold); color: var(--gold-soft); }
+.variant-btn.active { border-color: var(--gold); color: var(--bg); background: var(--gold); font-weight: 500; }
+.variant-note { font-size: 0.74rem; color: var(--muted-2); }
 .modal-desc p { color: var(--cream); opacity: 0.9; margin-bottom: 12px; }
 .modal-notes { border-top: 1px solid var(--line); margin-top: 22px; padding-top: 18px; }
 .modal-notes h4 { color: var(--gold-soft); font-family: var(--serif); font-weight: 500; margin-bottom: 10px; font-size: 1rem; }
