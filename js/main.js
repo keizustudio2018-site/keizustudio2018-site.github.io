@@ -7,6 +7,7 @@ const EQUIPMENT = [
   { id: 'smoke', category: 'paid', name: 'S1 煙霧機', price: '$150／一次', image: 'images/equipment/fog-machine-s1.jpg' },
   { id: 'bgfabric', category: 'paid', name: '背景布', price: '$100／一次（進棚仍需付共棚費用）', image: null },
   { id: 'sk400ii', category: 'paid', name: '神牛 SK400II', price: '$350／一次', image: 'images/equipment/godox-sk400ii.jpg' },
+  { id: 'godox-la150d', category: 'paid', name: '神牛LA150D 白光', price: '$50／一次', images: ['images/equipment/godox-la150d-1.jpg', 'images/equipment/godox-la150d-2.jpg'] },
   { id: 'vanity-table', category: 'paid', name: '梳妝台加購', price: '$250／HR／一桌2人座', image: null }
 ];
 
@@ -293,7 +294,7 @@ function renderEquipList(containerId, category) {
   const items = EQUIPMENT.filter(e => e.category === category);
   container.innerHTML = items.map(item => {
     const label = item.price ? `${item.name}　${item.price}` : item.name;
-    if (item.image) {
+    if (item.image || item.images) {
       return `<li><button type="button" class="equip-link" data-id="${item.id}">${label}</button></li>`;
     }
     return `<li>${label}</li>`;
@@ -302,7 +303,8 @@ function renderEquipList(containerId, category) {
   container.querySelectorAll('.equip-link').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = EQUIPMENT.find(e => e.id === btn.dataset.id);
-      if (item && item.image) openLightbox([item.image], 0);
+      const images = item && (item.images || (item.image ? [item.image] : null));
+      if (images) openLightbox(images, 0);
     });
   });
 }
